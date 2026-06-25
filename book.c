@@ -23,10 +23,13 @@ int main()
     fgets(d.category,sizeof(d.category),stdin);
     printf("Enter Book_id: ");
     scanf("%d",&d.Book_id);
-    printf("Enter total_quantity");
+    printf("Enter total_quantity: ");
     scanf("%d",&d.total_quantity);
+    FILE* ptr = NULL;
+    ptr = fopen("book.txt","a");
+    fprintf(ptr,"%s %s %s %d %d",d.author,d.title,d.category,d.Book_id,d.total_quantity);
 
-    
+    fclose(ptr);
    
         
     

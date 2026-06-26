@@ -13,14 +13,15 @@ struct book_details
 int main()
 {
     struct book_details d;
+
     
     
     printf("Enter Author: ");
-    fgets(d.author,sizeof(d.author),stdin);
+    gets(d.author);
     printf("Enter Title: ");
-    fgets(d.title,sizeof(d.title),stdin);
+    gets(d.title);
     printf("Enter Category: ");
-    fgets(d.category,sizeof(d.category),stdin);
+    gets(d.category);
     printf("Enter Book_id: ");
     scanf("%d",&d.Book_id);
     printf("Enter total_quantity: ");
@@ -28,6 +29,7 @@ int main()
     FILE* ptr = NULL;
     ptr = fopen("book.txt","a");
     fprintf(ptr,"%s %s %s %d %d",d.author,d.title,d.category,d.Book_id,d.total_quantity);
+    printf("\n");
 
     fclose(ptr);
    

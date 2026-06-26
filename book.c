@@ -54,6 +54,7 @@ int main()
         {
             
             if (s1.Book_id == book_id)
+            
             {
                 printf("book id: %d\nAuthor: %s\nTitle: %s\nCategory: %stotal quantity: %d",s1.Book_id,s1.author,s1.title,s1.category,s1.total_quantity);
             }

@@ -14,7 +14,7 @@ int main()
 {
     struct book_details d;
     int a;
-    printf("Enter 1 to add book details\nEnter 2 to search a book\n");
+    printf("Enter 1 to add book details\nEnter 2 to search a book\nEnter 3 to display all books\n");
     scanf("%d", &a);
     getchar();
     if (a == 1)
@@ -73,6 +73,31 @@ int main()
 
             fclose(ptr);
     }
+    else if (a==3)
+    {
+         struct book_details s1;
+        FILE *ptr = fopen("data.bin", "rb");
+        if (ptr == NULL)
+        {
+            printf("File not found");
+            return 0;
+        }
+        int count = 0;
+        while (fread(&s1, sizeof(struct book_details), 1, ptr))
+        {
+            printf("book id: %d\nAuthor: %s\nTitle: %s\nCategory: %s\ntotal quantity: %d\n", s1.Book_id, s1.author, s1.title, s1.category, s1.total_quantity);
+            count++;
+            printf("---------------------------\n");
+        }
+        if (count == 0)
+        {
+            printf("The library was empty");
+        }
+        
+        
+        
+    }
+    
 
         return 0;
     }

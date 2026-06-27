@@ -60,22 +60,22 @@ int main()
             {
                 break;
             }
-        }    
+        }
 
-            if (s1.Book_id == book_id)
-            {
-                printf("book id: %d\nAuthor: %s\nTitle: %s\nCategory: %stotal quantity: %d", s1.Book_id, s1.author, s1.title, s1.category, s1.total_quantity);
-            }
-            else
-            {
-                printf("Book not found");
-            }
+        if (s1.Book_id == book_id)
+        {
+            printf("book id: %d\nAuthor: %s\nTitle: %s\nCategory: %s\ntotal quantity: %d", s1.Book_id, s1.author, s1.title, s1.category, s1.total_quantity);
+        }
+        else
+        {
+            printf("Book not found");
+        }
 
-            fclose(ptr);
+        fclose(ptr);
     }
-    else if (a==3)
+    else if (a == 3)
     {
-         struct book_details s1;
+        struct book_details s1;
         FILE *ptr = fopen("data.bin", "rb");
         if (ptr == NULL)
         {
@@ -93,11 +93,7 @@ int main()
         {
             printf("The library was empty");
         }
-        
-        
-        
     }
-    
 
-        return 0;
-    }
+    return 0;
+}

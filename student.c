@@ -9,6 +9,7 @@ struct student_details
     char institution[21];
     char contact[11];
     int book_issued;
+    int issuedbookids[5];
 };
 
 int main()
@@ -33,6 +34,22 @@ int main()
         scanf("%d", &d.student_id);
         printf("Enter book_issued: ");
         scanf("%d", &d.book_issued);
+        if (d.book_issued!=0 && d.book_issued<=5)
+        {
+           for (int i = 0; i < d.book_issued; i++)
+           {
+            printf("Enter book id %d",i+1);
+            scanf("%d",&d.issuedbookids[i]);
+           }
+           
+        }
+        else 
+        {
+            printf("Invalid input\nMaximum books allowed per student is 5.\nStudent record not saved\n");
+            return 0;
+        }
+        
+        
 
         FILE *ptr = fopen("student.bin", "ab");
         if (ptr == NULL)

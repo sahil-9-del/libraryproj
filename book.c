@@ -112,6 +112,9 @@ void addbook() //addbook()
                 if (s2.available_quantity>0)
                 {
                     s2.available_quantity--;
+                    fseek(ptr,-sizeof(struct book_details),SEEK_CUR);
+                    fwrite(&s2,sizeof(struct book_details),1,ptr);
+                    printf("Book issued successfully");
                     break;
                 }
                 else{

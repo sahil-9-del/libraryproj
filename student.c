@@ -34,11 +34,11 @@ int main()
         scanf("%d", &d.student_id);
         printf("Enter book_issued: ");
         scanf("%d", &d.book_issued);
-        if (d.book_issued!=0 && d.book_issued<=5)
+        if (d.book_issued>=0 && d.book_issued<=5)
         {
            for (int i = 0; i < d.book_issued; i++)
            {
-            printf("Enter book id %d",i+1);
+            printf("Enter book id: %d\n",i+1);
             scanf("%d",&d.issuedbookids[i]);
            }
            
@@ -54,7 +54,7 @@ int main()
         FILE *ptr = fopen("student.bin", "ab");
         if (ptr == NULL)
         {
-            printf("Student not found");
+            printf("Unable to open student file");
         }
         fwrite(&d, sizeof(struct student_details), 1, ptr);
         fclose(ptr);
@@ -65,10 +65,10 @@ int main()
         printf("Enter the Student id:\n");
         scanf("%d", &student_id);
         struct student_details s1;
-        FILE *ptr = fopen("Student.bin", "rb");
+        FILE *ptr = fopen("student.bin", "rb");
         if (ptr == NULL)
         {
-            printf("Student not found");
+            printf("Unable to open student file");
             return 0;
         }
 
@@ -84,7 +84,7 @@ int main()
 
         if (s1.student_id == student_id)
         {
-            printf("student id: %d\nstudent_name: %s\ncontact no: %s\ncourse: %s\ninstitution: %s\ntotal quantity: %d", s1.student_id, s1.student_name,s1.contact, s1.course, s1.institution, s1.book_issued);
+            printf("student id: %d\nstudent_name: %s\ncontact no: %s\ncourse: %s\ninstitution: %s\nbook issued: %d", s1.student_id, s1.student_name,s1.contact, s1.course, s1.institution, s1.book_issued);
         }
         else
         {
@@ -105,7 +105,7 @@ int main()
         int count = 0;
         while (fread(&s1, sizeof(struct student_details), 1, ptr))
         {
-            printf("student id: %d\nstudent_name: %s\ncontact no: %s\ncourse: %s\ninstitution: %s\ntotal quantity: %d\n", s1.student_id, s1.student_name,s1.contact, s1.course, s1.institution, s1.book_issued);
+            printf("student id: %d\nstudent_name: %s\ncontact no: %s\ncourse: %s\ninstitution: %s\nbook issued: %d\n", s1.student_id, s1.student_name,s1.contact, s1.course, s1.institution, s1.book_issued);
             count++;
             printf("---------------------------\n");
         }

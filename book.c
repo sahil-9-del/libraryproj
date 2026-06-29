@@ -10,6 +10,16 @@ struct book_details
     int total_quantity;
     int available_quantity;
 };
+struct student_details
+{
+    int student_id;
+    char student_name[64];
+    char course[64];
+    char institution[21];
+    char contact[11];
+    int book_issued;
+    int issuedbookids[5];
+};
 struct book_details d;
 void addbook() //addbook()
 {
@@ -92,48 +102,110 @@ void addbook() //addbook()
     void issuebook()
     {
         int a,b;
-        printf("Enter the book id");
+        printf("Enter the Book ID:\n");
         scanf("%d",&a);
-        printf("Enter the student id");
+        printf("Enter the Student ID\n");
         scanf("%d",&b);
         struct book_details s2;
+        struct student_details s3;
         FILE*ptr = fopen("data.bin", "rb+");
         if (ptr==NULL)
         {
-            printf("File not found");
+            printf("Book file not found");
             return;
         }
+        FILE*fp = fopen("student.bin", "rb+");
+        if (fp==NULL)
+        {
+            printf("Student file not found");
+            return;
+        }
+        while (fread(&s3,sizeof(struct student_details),1,fp))
+        {
+           if (s3.student_id==b)
+           {
+            if (s3.book_issued==5)
+            {
+                printf("Already issued 5 books");
+                fclose(ptr);
+                fclose(fp);
+                return;
+            }
+            break;
+           }
+           
+        }
+        
+        if (s3.student_id!=b)
+        {
+            printf("Student not found");
+            fclose(ptr);
+            fclose(fp);
+            return;
+        }
+        
+        
+
+
         while (fread(&s2, sizeof(struct book_details), 1, ptr))
         {
 
             if (s2.Book_id == a)
 
             {
-                if (s2.available_quantity>0)
+                
+                if (s2.available_quantity<=0)
                 {
-                    s2.available_quantity--;
-                    fseek(ptr,-sizeof(struct book_details),SEEK_CUR);
-                    fwrite(&s2,sizeof(struct book_details),1,ptr);
-                    printf("Book issued successfully");
-                    break;
-                }
-                else{
                     printf("Book is not available");
-                    break;
+                    fclose(ptr);
+                    fclose(fp);
+                    return;
+                    
                 }
+                break;
+                
+                
             }
+        } 
+          
         if (s2.Book_id==a)
         {
+           if (s2.available_quantity>0)
+           {
+            s2.available_quantity--;
+            fseek(ptr,-sizeof(struct book_details),SEEK_CUR);
+            fwrite(&s2,sizeof(struct book_details),1,ptr);
+            
+            
+           }
             
         }
         else{
             printf("Book not found");
+            fclose(ptr);
+            fclase(fp);
+            return;
         }
+        if (s3.student_id==b)
+        {
+            
+            
+            s3.issuedbookids[s3.book_issued]=a;
+            s3.book_issued++;
+            fseek(fp,-sizeof(struct student_details),SEEK_CUR);
+            fwrite(&s3,sizeof(struct student_details),1,fp);
+            printf("Book issued successfully");
+        }
+
+         
+        fclose(ptr);
+        fclose(fp);
+        
             
             
         }
         
-    }
+    
     
 
     

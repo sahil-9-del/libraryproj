@@ -14,7 +14,7 @@ struct student_details
 
 int main()
 {
-    struct student_details d;
+    struct student_details d={.issuedbookids={0,0,0,0,0}};
     int a;
     printf("Enter 1 to add student details\nEnter 2 to search a student\nEnter 3 to display all students\n");
     scanf("%d", &a);
@@ -84,7 +84,13 @@ int main()
 
         if (s1.student_id == student_id)
         {
-            printf("student id: %d\nstudent_name: %s\ncontact no: %s\ncourse: %s\ninstitution: %s\nbook issued: %d", s1.student_id, s1.student_name,s1.contact, s1.course, s1.institution, s1.book_issued);
+            printf("student id: %d\nstudent_name: %s\ncontact no: %s\ncourse: %s\ninstitution: %s\nbook issued: %d\n ", s1.student_id, s1.student_name,s1.contact, s1.course, s1.institution, s1.book_issued);
+            printf("Issued Book IDs:\n");
+            for (int i = 0; i < s1.book_issued; i++)
+            {
+                printf("%d\n",s1.issuedbookids[i]);
+            }
+            
         }
         else
         {

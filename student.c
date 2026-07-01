@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include "student.h"
 
 struct student_details
 {
@@ -11,115 +12,109 @@ struct student_details
     int book_issued;
     int issuedbookids[5];
 };
+struct student_details d={.issuedbookids={0,0,0,0,0}};
 
-int main()
+
+    
+   
+void addstudent()// addstudent()
 {
-    struct student_details d={.issuedbookids={0,0,0,0,0}};
-    int a;
-    printf("Enter 1 to add student details\nEnter 2 to search a student\nEnter 3 to display all students\n");
-    scanf("%d", &a);
-    getchar();
-    if (a == 1)
+    printf("Enter student_name: ");
+    gets(d.student_name);
+    printf("Enter course: ");
+    gets(d.course);
+    printf("Enter institution: ");
+    gets(d.institution);
+    printf("Enter contact no: ");
+    gets(d.contact);
+    printf("Enter student_id: ");
+    scanf("%d", &d.student_id);
+    printf("Enter book_issued: ");
+    scanf("%d", &d.book_issued);
+    if (d.book_issued>=0 && d.book_issued<=5)
     {
-
-        printf("Enter student_name: ");
-        gets(d.student_name);
-        printf("Enter course: ");
-        gets(d.course);
-        printf("Enter institution: ");
-        gets(d.institution);
-        printf("Enter contact no: ");
-        gets(d.contact);
-        printf("Enter student_id: ");
-        scanf("%d", &d.student_id);
-        printf("Enter book_issued: ");
-        scanf("%d", &d.book_issued);
-        if (d.book_issued>=0 && d.book_issued<=5)
+        for (int i = 0; i < d.book_issued; i++)
         {
-           for (int i = 0; i < d.book_issued; i++)
-           {
-            printf("Enter book id: %d\n",i+1);
-            scanf("%d",&d.issuedbookids[i]);
-           }
+        printf("Enter book id: %d\n",i+1);
+        scanf("%d",&d.issuedbookids[i]);
+        }
            
-        }
-        else 
-        {
-            printf("Invalid input\nMaximum books allowed per student is 5.\nStudent record not saved\n");
-            return 0;
-        }
-        
-        
-
-        FILE *ptr = fopen("student.bin", "ab");
-        if (ptr == NULL)
-        {
-            printf("Unable to open student file");
-        }
-        fwrite(&d, sizeof(struct student_details), 1, ptr);
-        fclose(ptr);
     }
-    else if (a == 2)
+    else 
     {
-        int student_id;
-        printf("Enter the Student id:\n");
-        scanf("%d", &student_id);
-        struct student_details s1;
-        FILE *ptr = fopen("student.bin", "rb");
-        if (ptr == NULL)
-        {
-            printf("Unable to open student file");
-            return 0;
-        }
+        printf("Invalid input\nMaximum books allowed per student is 5.\nStudent record not saved\n");
+        return;
+    }
+        
+        
 
-        while (fread(&s1, sizeof(struct student_details), 1, ptr))
-        {
+    FILE *ptr = fopen("student.bin", "ab");
+    if (ptr == NULL)
+    {
+        printf("Unable to open student file");
+    }
+    fwrite(&d, sizeof(struct student_details), 1, ptr);
+    fclose(ptr);
+    }
+void searchstudent()//searchstudent()
+{
+    int student_id;
+    printf("Enter the Student id:\n");
+    scanf("%d", &student_id);
+    struct student_details s1;
+    FILE *ptr = fopen("student.bin", "rb");
+    if (ptr == NULL)
+    {
+        printf("Unable to open student file");
+        return;
+    }
 
-            if (s1.student_id == student_id)
-
-            {
-                break;
-            }
-        }
-
+    while (fread(&s1, sizeof(struct student_details), 1, ptr))
+    {
         if (s1.student_id == student_id)
         {
-            printf("student id: %d\nstudent_name: %s\ncontact no: %s\ncourse: %s\ninstitution: %s\nbook issued: %d\n ", s1.student_id, s1.student_name,s1.contact, s1.course, s1.institution, s1.book_issued);
-            printf("Issued Book IDs:\n");
-            for (int i = 0; i < s1.book_issued; i++)
-            {
-                printf("%d\n",s1.issuedbookids[i]);
-            }
-            
+            break;
         }
-        else
-        {
-            printf("Student not found");
-        }
-
-        fclose(ptr);
     }
-    else if (a == 3)
+
+    if (s1.student_id == student_id)
     {
-        struct student_details s1;
-        FILE *ptr = fopen("student.bin", "rb");
-        if (ptr == NULL)
+        printf("student id: %d\nstudent_name: %s\ncontact no: %s\ncourse: %s\ninstitution: %s\nbook issued: %d\n ", s1.student_id, s1.student_name,s1.contact, s1.course, s1.institution, s1.book_issued);
+        printf("Issued Book IDs:\n");
+        for (int i = 0; i < s1.book_issued; i++)
         {
-            printf("Student not found");
-            return 0;
+            printf("%d\n",s1.issuedbookids[i]);
         }
-        int count = 0;
-        while (fread(&s1, sizeof(struct student_details), 1, ptr))
-        {
-            printf("student id: %d\nstudent_name: %s\ncontact no: %s\ncourse: %s\ninstitution: %s\nbook issued: %d\n", s1.student_id, s1.student_name,s1.contact, s1.course, s1.institution, s1.book_issued);
-            count++;
-            printf("---------------------------\n");
-        }
-        if (count == 0)
-        {
-            printf("No student registered");
-        }
+            
+    }
+    else
+    {
+        printf("Student not found");
     }
 
-    return 0;
+    fclose(ptr);
+    }
+void displaystudent()// display students()
+{
+    struct student_details s1;
+    FILE *ptr = fopen("student.bin", "rb");
+    if (ptr == NULL)
+    {
+        printf("Student not found");
+        return;
+    }
+    int count = 0;
+    while (fread(&s1, sizeof(struct student_details), 1, ptr))
+    {
+        printf("student id: %d\nstudent_name: %s\ncontact no: %s\ncourse: %s\ninstitution: %s\nbook issued: %d\n", s1.student_id, s1.student_name,s1.contact, s1.course, s1.institution, s1.book_issued);
+        count++;
+        printf("---------------------------\n");
+    }
+    if (count == 0)
+    {
+        printf("No student registered");
+    }
+    fclose(ptr);
 }
+
+   

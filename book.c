@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include "book.h"
 
 struct book_details
 {
@@ -23,7 +24,9 @@ struct student_details
 struct book_details d;
 void addbook() // addbook()
 {
+    
     printf("Enter Author: ");
+    getchar();
     gets(d.author);
     printf("Enter Title: ");
     gets(d.title);

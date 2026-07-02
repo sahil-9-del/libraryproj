@@ -238,7 +238,16 @@ void returnbook()
         if (s3.issuedbookids[i]==a)
         {
             printf("Book ID exists");
-            s3.issuedbookids[i]=0; // issue with the array display
+            s3.issuedbookids[i]=0;
+            for (int j = 1; j < 5; j++)
+            {
+                if (s3.issuedbookids[i-1]==0)
+                {
+                    s3.issuedbookids[i-1]=s3.issuedbookids[i];
+                    s3.issuedbookids[i]=0;
+                }
+    
+            } 
             s3.book_issued--;
             fseek(fp, -sizeof(struct student_details), SEEK_CUR);
             fwrite(&s3, sizeof(struct student_details), 1, fp);
